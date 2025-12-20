@@ -1,0 +1,14 @@
+# Ignorar arquivos de dados (Muito pesados para o GitHub)
+data/
+*.csv
+*.zip
+
+# Ignorar ambiente virtual e configurações da IDE
+venv/
+.idea/
+.vscode/
+__pycache__/
+*.pyc
+
+# Ignorar checkpoints do Jupyter
+.ipynb_checkpoints/
