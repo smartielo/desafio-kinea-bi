@@ -19,7 +19,8 @@ desafio-kinea-bi/
 ├── notebooks/
 │   ├── 01_download_dados.ipynb    # ETL: Extração automatizada da CVM
 │   ├── 02_limpeza_dados.ipynb     # ETL: Filtragem (Ações) e Tratamento (Res. 175)
-│   └── 03_feature_engineering.ipynb # Criação de Variáveis (Retorno, Volatilidade)
+│   ├── 03_feature_engineering.ipynb # Criação de Variáveis (Retorno, Volatilidade)
+│   └── 04_modelagem_basica.ipynb    # ML 1: Baseline (Regressão Linear) e Feature Importance
 ├── README.md         # Documentação do projeto
 └── requirements.txt  # Bibliotecas necessárias
 ```
@@ -29,7 +30,7 @@ Certifique-se de ter Python 3.10+ instalado. Recomenda-se o uso de ambiente virt
 
 ```bash
 # Clone o repositório
-git clone [https://github.com/SEU_USUARIO/desafio-kinea-bi.git](https://github.com/SEU_USUARIO/desafio-kinea-bi.git)
+git clone [https://github.com/smartielo/desafio-kinea-bi.git](https://github.com/smartielo/desafio-kinea-bi.git)
 cd desafio-kinea-bi
 
 # Crie e ative o ambiente virtual
