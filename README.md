@@ -1,29 +1,34 @@
 # Desafio Técnico de BI & Dados - Análise de Fundos CVM
 
-Este repositório contém a solução para o desafio técnico de Business Intelligence (Investimentos), focado na análise de drivers de captação líquida de fundos de ações utilizando dados públicos da CVM.
+Este repositório contém a solução "End-to-End" para o desafio de Business Intelligence e Data Science, focado na modelagem preditiva de captação líquida (`Net Flow`) de fundos de ações brasileiros.
 
-***
+## 🎯 Objetivo de Negócio
+Identificar quais fatores (Drivers) impulsionam a entrada ou saída de dinheiro em fundos de investimento e criar um modelo preditivo capaz de antecipar quais fundos terão maior captação no curto prazo (21 dias).
 
-## 🎯 Objetivo
-Investigar e modelar o fluxo de captação (`Net Flow`) de fundos de ações brasileiros, identificando quais fatores (Retorno, Volatilidade, Tamanho, etc.) melhor explicam a entrada ou saída de capital no curto prazo ($T+1$ a $T+21$).
+## 📊 Resultados Chave (Highlights)
+* **Modelo Final:** Random Forest Regressor.
+* **Performance:** $R^2$ de **34.6%** em dados de teste Out-of-Time (OOT).
+* **Impacto de Negócio:** O modelo demonstrou **monotonicidade perfeita** na ordenação dos fundos.
+    * Os fundos classificados no **Top 10% (Decil 9)** pelo modelo tiveram, na realidade, a maior captação média.
+    * Os fundos classificados no **Bottom 10% (Decil 0)** tiveram captação negativa (resgates).
 
-***
-
-## 🗂 Estrutura do Projeto
+## 🗂 Estrutura do Pipeline
 
 ```text
 desafio-kinea-bi/
 ├── data/
-│   ├── raw/          # Dados brutos baixados diretamente da CVM (ignorados no git)
-│   └── processed/    # Dados limpos e consolidados em Parquet
+│   ├── raw/          # Dados brutos da CVM
+│   └── processed/    # Dados limpos e features calculadas (CSV)
 ├── notebooks/
-│   ├── 01_download_dados.ipynb    # ETL: Extração automatizada da CVM
-│   ├── 02_limpeza_dados.ipynb     # ETL: Filtragem (Ações) e Tratamento (Res. 175)
-│   ├── 03_feature_engineering.ipynb # Criação de Variáveis (Retorno, Volatilidade)
-│   └── 04_modelagem_basica.ipynb    # ML 1: Baseline (Regressão Linear) e Feature Importance
-├── README.md         # Documentação do projeto
-└── requirements.txt  # Bibliotecas necessárias
+│   ├── 01_download_dados.ipynb      # Extração: 24 meses de histórico CVM
+│   ├── 02_limpeza_dados.ipynb       # ETL: Tratamento da Resolução 175 e filtros
+│   ├── 03_feature_engineering.ipynb # Features: Retorno, Volatilidade e Target
+│   ├── 04_modelagem_basica.ipynb    # Baseline: Regressão Linear (Falha: R² Negativo)
+│   └── 05_modelagem_avancada.ipynb  # Final: Random Forest + Validação de Decis
+├── README.md         # Documentação
+└── requirements.txt  # Dependências
 ```
+
 ## 🚀 Como Executar
 ## 1. Pré-requisitos
 Certifique-se de ter Python 3.10+ instalado. Recomenda-se o uso de ambiente virtual
@@ -44,7 +49,15 @@ source venv/bin/activate
 pip install pandas numpy requests jupyter matplotlib seaborn scikit-learn pyarrow fastparquet
 ```
 
-## 2. Pipeline de Dados (ETL)
+## 2. O Fluxo de Trabalho
+- Extração (01): Baixa dados do Portal de Dados Abertos.
+- Limpeza (02): Unifica layouts antigos e novos (pós-Resolução 175) e filtra classe "Ações".
+- Engenharia (03): Calcula janelas móveis (21, 63, 126 dias) para Retorno e Risco. Cria o Target (Soma do fluxo futuro em T+21).
+- Modelagem (04 e 05):
+- Separação Temporal (Out-of-Time): Últimos 90 dias reservados para teste.
+- Comparativo: Regressão Linear vs Random Forest.
+
+## 3. Pipeline de Dados (ETL)
 O pipeline foi dividido em notebooks para garantir reprodutibilidade e clareza:
 
 Extração: Execute notebooks/01_download_dados.ipynb.
@@ -60,6 +73,14 @@ O que faz: Filtra fundos da classe "Ações", trata mudanças de layout (Resolu�
 Output: data/processed/base_acoes_consolidada.parquet.
 
 ***
+
+## 📈Análise de Resultados
+Por que Random Forest?
+A Regressão Linear apresentou $R^2$ negativo (-0.01), indicando que a relação entre Retorno/Risco e Captação não é linear. 
+A Random Forest capturou a complexidade do mercado, atingindo $R^2$ de 0.34.
+Validação por Decis (Ranking)Dividindo as previsões do modelo em 10 grupos (decis):
+O modelo ordenou perfeitamente os fundos do pior para o melhor.
+Isso valida o uso da ferramenta para seleção e recomendação de fundos baseada em probabilidade de captação.
 
 ## 🛠 Tecnologias Utilizadas
 - Python: Linguagem principal.
