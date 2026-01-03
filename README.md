@@ -50,43 +50,47 @@ pip install pandas numpy requests jupyter matplotlib seaborn scikit-learn pyarro
 ```
 
 ## 2. O Fluxo de Trabalho
-- Extração (01): Baixa dados do Portal de Dados Abertos.
-- Limpeza (02): Unifica layouts antigos e novos (pós-Resolução 175) e filtra classe "Ações".
-- Engenharia (03): Calcula janelas móveis (21, 63, 126 dias) para Retorno e Risco. Cria o Target (Soma do fluxo futuro em T+21).
+O pipeline foi dividido em notebooks numerados para garantir reprodutibilidade linear:
+
+- Extração (01_download_dados.ipynb):
+
+  * Baixa os informes diários dos últimos 24 meses do Portal de Dados Abertos da CVM.
+
+  * Output: Arquivos .csv e .zip em data/raw.
+
+- Limpeza e Consolidação (02_limpeza_dados.ipynb):
+
+  * Filtra fundos da classe "Ações", trata mudanças de layout (Resolução 175) e consolida em um arquivo otimizado.
+
+  * Output: data/processed/base_acoes_consolidada.csv.
+
+- Engenharia de Features (03_feature_engineering.ipynb):
+
+  * Calcula janelas móveis (21, 63, 126 dias) para Retorno e Risco. Cria o Target (Soma do fluxo futuro em T+21).
+
+  * Output: data/processed/base_modelagem.csv.
+
 - Modelagem (04 e 05):
-- Separação Temporal (Out-of-Time): Últimos 90 dias reservados para teste.
-- Comparativo: Regressão Linear vs Random Forest.
 
-## 3. Pipeline de Dados (ETL)
-O pipeline foi dividido em notebooks para garantir reprodutibilidade e clareza:
+  * Separação Temporal (Out-of-Time): Últimos 90 dias reservados para teste.
 
-Extração: Execute notebooks/01_download_dados.ipynb.
-
-O que faz: Baixa os informes diários dos últimos 24 meses do Portal de Dados Abertos da CVM.
-
-Output: Arquivos .csv e .zip em data/raw.
-
-Limpeza e Consolidação: Execute notebooks/02_limpeza_dados.ipynb.
-
-O que faz: Filtra fundos da classe "Ações", trata mudanças de layout (Resolução 175) e consolida em um arquivo otimizado.
-
-Output: data/processed/base_acoes_consolidada.parquet.
+  * Comparativo: Regressão Linear vs Random Forest.
 
 ***
 
 ## 📈Análise de Resultados
-Por que Random Forest?
-A Regressão Linear apresentou $R^2$ negativo (-0.01), indicando que a relação entre Retorno/Risco e Captação não é linear. 
-A Random Forest capturou a complexidade do mercado, atingindo $R^2$ de 0.34.
-Validação por Decis (Ranking)Dividindo as previsões do modelo em 10 grupos (decis):
-O modelo ordenou perfeitamente os fundos do pior para o melhor.
-Isso valida o uso da ferramenta para seleção e recomendação de fundos baseada em probabilidade de captação.
+Por que Random Forest?A Regressão Linear apresentou $R^2$ negativo (-0.01), indicando que a relação entre Retorno/Risco e Captação não é linear. A Random Forest capturou a complexidade do mercado, atingindo $R^2$ de 0.34. 
+- Validação por Decis (Ranking). 
+Dividindo as previsões do modelo em 10 grupos (decis):
+  * 1. O modelo ordenou perfeitamente os fundos do pior para o melhor.
+  * 2. Isso valida o uso da ferramenta para seleção e recomendação de fundos baseada em probabilidade de captação.
 
 ## 🛠 Tecnologias Utilizadas
+
 - Python: Linguagem principal.
 - Pandas: Manipulação de dados e séries temporais.
 - Requests: Automação de downloads.
-- Parquet: Formato de armazenamento colunar para alta performance.
+- Scikit-Learn: Modelagem preditiva.
 
 ***
 
