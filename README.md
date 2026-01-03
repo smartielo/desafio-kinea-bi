@@ -46,7 +46,7 @@ venv\Scripts\activate
 source venv/bin/activate
 
 # Instale as dependências
-pip install pandas numpy requests jupyter matplotlib seaborn scikit-learn pyarrow fastparquet
+pip install pandas numpy requests jupyter matplotlib seaborn scikit-learn
 ```
 
 ## 2. O Fluxo de Trabalho
