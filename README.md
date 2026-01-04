@@ -87,7 +87,7 @@ Dividindo as previsões do modelo em 10 grupos (decis):
 
 ***
 
-## 🛠 Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - Python: Linguagem principal.
 - Pandas: Manipulação de dados e séries temporais.
