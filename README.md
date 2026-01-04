@@ -2,17 +2,17 @@
 
 Este repositório contém a solução "End-to-End" para o desafio de Business Intelligence e Data Science, focado na modelagem preditiva de captação líquida (`Net Flow`) de fundos de ações brasileiros.
 
-## 🎯 Objetivo de Negócio
+## Objetivo de Negócio
 Identificar quais fatores (Drivers) impulsionam a entrada ou saída de dinheiro em fundos de investimento e criar um modelo preditivo capaz de antecipar quais fundos terão maior captação no curto prazo (21 dias).
 
-## 📊 Resultados Chave (Highlights)
+## Resultados Chave (Highlights)
 * **Modelo Final:** Random Forest Regressor.
 * **Performance:** $R^2$ de **34.6%** em dados de teste Out-of-Time (OOT).
 * **Impacto de Negócio:** O modelo demonstrou **monotonicidade perfeita** na ordenação dos fundos.
     * Os fundos classificados no **Top 10% (Decil 9)** pelo modelo tiveram, na realidade, a maior captação média.
     * Os fundos classificados no **Bottom 10% (Decil 0)** tiveram captação negativa (resgates).
 
-## 🗂 Estrutura do Pipeline
+## Estrutura do Pipeline
 
 ```text
 desafio-kinea-bi/
@@ -25,11 +25,10 @@ desafio-kinea-bi/
 │   ├── 03_feature_engineering.ipynb # Features: Retorno, Volatilidade e Target
 │   ├── 04_modelagem_basica.ipynb    # Baseline: Regressão Linear (Falha: R² Negativo)
 │   └── 05_modelagem_avancada.ipynb  # Final: Random Forest + Validação de Decis
-├── README.md         # Documentação
-└── requirements.txt  # Dependências
+└── README.md         # Documentação
 ```
 
-## 🚀 Como Executar
+## Como Executar
 ## 1. Pré-requisitos
 Certifique-se de ter Python 3.10+ instalado. Recomenda-se o uso de ambiente virtual
 
@@ -48,6 +47,7 @@ source venv/bin/activate
 # Instale as dependências
 pip install pandas numpy requests jupyter matplotlib seaborn scikit-learn
 ```
+***
 
 ## 2. O Fluxo de Trabalho
 O pipeline foi dividido em notebooks numerados para garantir reprodutibilidade linear:
@@ -76,14 +76,16 @@ O pipeline foi dividido em notebooks numerados para garantir reprodutibilidade l
 
   * Comparativo: Regressão Linear vs Random Forest.
 
-***
-
-## 📈Análise de Resultados
-Por que Random Forest?A Regressão Linear apresentou $R^2$ negativo (-0.01), indicando que a relação entre Retorno/Risco e Captação não é linear. A Random Forest capturou a complexidade do mercado, atingindo $R^2$ de 0.34. 
+*** 
+## Análise de Resultados
+- Por que Random Forest?\
+A Regressão Linear apresentou $R^2$ negativo (-0.01), indicando que a relação entre Retorno/Risco e Captação não é linear. A Random Forest capturou a complexidade do mercado, atingindo $R^2$ de 0.34. 
 - Validação por Decis (Ranking). 
 Dividindo as previsões do modelo em 10 grupos (decis):
   * 1. O modelo ordenou perfeitamente os fundos do pior para o melhor.
   * 2. Isso valida o uso da ferramenta para seleção e recomendação de fundos baseada em probabilidade de captação.
+
+***
 
 ## 🛠 Tecnologias Utilizadas
 
